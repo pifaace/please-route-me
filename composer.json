@@ -1,0 +1,31 @@
+{
+    "name": "piface/please-route-me",
+    "description": "A simple router",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Piface",
+            "email": "maximejoassy@hotmail.fr"
+        }
+    ],
+    "config": {
+      "sort-packages": true
+    },
+    "require": {
+        "php": "^7.2.0",
+        "guzzlehttp/psr7": "^1.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "symfony/var-dumper": "^4.2",
+        "friendsofphp/php-cs-fixer": "^2.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Piface\\Router\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "Tests\\Router\\": "tests/"
+    }
+}
