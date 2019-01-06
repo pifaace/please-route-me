@@ -1,6 +1,6 @@
 <?php
 
-namespace Piface\Routing\Exceptions;
+namespace Piface\Router\Exceptions;
 
 class DuplicateRouteException extends RoutingException
 {

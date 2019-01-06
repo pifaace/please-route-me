@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<ruleset name="please-route-me">
+    <description>syntax rules</description>
+
+    <arg name="colors" />
+    <arg value="p" />
+
+    <file>src</file>
+    <rule ref="PSR2"></rule>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"></rule>
+</ruleset>

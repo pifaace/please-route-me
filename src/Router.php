@@ -1,6 +1,6 @@
 <?php
 
-namespace Piface\Routing;
+namespace Piface\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -48,7 +48,7 @@ class Router
     }
 
     /**
-     * Convert a string action like "IndexController@index" to a namespace
+     * Convert a string action like "IndexController@index" to a namespace.
      */
     private function convertToControllerAction(string $action): string
     {

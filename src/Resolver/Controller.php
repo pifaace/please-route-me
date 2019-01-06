@@ -1,14 +1,16 @@
 <?php
 
-namespace Piface\Routing;
+namespace Piface\Router\Resolver;
 
-use Piface\Routing\Exceptions\HttpResponseException;
 use GuzzleHttp\Psr7\Response;
+use Piface\Router\Exceptions\HttpResponseException;
+use Piface\Router\Route;
 
 class Controller
 {
     /**
      * @param Route $route
+     *
      * @return mixed
      *
      * @throws HttpResponseException
@@ -32,7 +34,7 @@ class Controller
     }
 
     /**
-     * Handle a no existing method
+     * Handle a no existing method.
      *
      * @param $name
      * @param $arguments

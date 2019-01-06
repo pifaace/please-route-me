@@ -1,28 +1,28 @@
 <?php
 
-namespace Piface\Routing;
+namespace Piface\Router;
 
-use Piface\Routing\Exceptions\DuplicateRouteException;
+use Piface\Router\Exceptions\DuplicateRouteException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterContainer
 {
     /**
-     * All routes sort by method
+     * All routes sort by method.
      *
      * @var array
      */
     private $routes = [];
 
     /**
-     * An array of all routes
+     * An array of all routes.
      *
      * @var Route[]
      */
     private $allRoutes = [];
 
     /**
-     * index all routes which hav been registered to not have duplication
+     * index all routes which hav been registered to not have duplication.
      *
      * @var array
      */
@@ -78,8 +78,8 @@ class RouterContainer
     }
 
     /**
-     *
      * @param $method
+     *
      * @return Route[]
      */
     public function getRoutesForSpecificMethod($method): array
@@ -113,7 +113,7 @@ class RouterContainer
 
         if (!empty($route->getWhere())) {
             foreach ($route->getWhere() as $attribute => $where) {
-                $path = preg_replace('#{(' . $attribute . ')}#', '(' . $where . ')', $path);
+                $path = preg_replace('#{('.$attribute.')}#', '('.$where.')', $path);
             }
         }
         $path = preg_replace("#{([\w]+)}#", '([^/]+)', $path);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Piface\Routing;
+namespace Piface\Router;
 
 /**
  * Represent a register route.

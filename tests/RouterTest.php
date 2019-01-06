@@ -1,15 +1,16 @@
 <?php
 
-namespace Tests\framework\Routing;
+namespace Tests\Router;
 
-use Piface\Routing\Controller;
-use Piface\Routing\Router;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Piface\Router\Router;
 
 class RouterTest extends TestCase
 {
+    /**
+     * @var Router
+     */
     private $router;
 
     public function setUp()
@@ -56,7 +57,7 @@ class RouterTest extends TestCase
     }
 
     /**
-     * @expectedException \Piface\Routing\Exceptions\DuplicateRouteException
+     * @expectedException \Piface\Router\Exceptions\DuplicateRouteException
      */
     public function testDuplicateUri()
     {
@@ -65,7 +66,7 @@ class RouterTest extends TestCase
     }
 
     /**
-     * @expectedException \Piface\Routing\Exceptions\DuplicateRouteException
+     * @expectedException \Piface\Router\Exceptions\DuplicateRouteException
      */
     public function testDuplicateRouteName()
     {
@@ -99,14 +100,5 @@ class RouterTest extends TestCase
 
         $this->assertEquals('profile 34Az', \call_user_func_array($validRoute->getAction(), $validRoute->getParameters()));
         $this->assertEquals(null, $invalidRoute);
-    }
-
-    public function testGetAndCallAController()
-    {
-        $route = $this->router->get('/', 'index', 'IndexController@index');
-        $controller = new Controller();
-
-        $this->assertEquals('App\\Controller\\IndexController@index', $route->getAction());
-        $this->assertInstanceOf(Response::class, $controller->callAction($route));
     }
 }

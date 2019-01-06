@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\framework\Routing;
+namespace Tests\Router;
 
-use Piface\Routing\Route;
-use Piface\Routing\RouterContainer;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Piface\Router\Route;
+use Piface\Router\RouterContainer;
 
 class RouterContainerTest extends TestCase
 {
