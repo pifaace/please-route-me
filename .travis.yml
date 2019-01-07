@@ -1,0 +1,15 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+    - ./bin/.phpunit
+
+php:
+  - '7.2'
+install:
+  - composer install
+
+script:
+  # run tests
+  - ./vendor/bin/phpunit
