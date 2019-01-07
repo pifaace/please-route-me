@@ -18,7 +18,7 @@ class RouterTest extends TestCase
         $this->router = new Router();
     }
 
-    public function testRegisterRoute()
+    public function testRegisterGetRoute()
     {
         $this->router->get('/foo', 'foo', function () {return 'hello from foo'; });
         $this->router->get('/blo', 'blo', function () {return 'blo'; });
@@ -26,7 +26,7 @@ class RouterTest extends TestCase
         $this->assertCount(2, $this->router->getAllRoutes());
     }
 
-    public function testGetMethodWithNoParameter()
+    public function testRegisterGetMethodWithNoParameter()
     {
         $this->router->get('/foo', 'foo', function () {return 'hello from foo'; });
 
@@ -37,7 +37,7 @@ class RouterTest extends TestCase
         $this->assertEquals('hello from foo', \call_user_func_array($route->getAction(), []));
     }
 
-    public function testGetWithParameters()
+    public function testRegisterGetWithParameters()
     {
         $this->router->get('/profile/{id}', 'profile', function ($id) {return 'profile '.$id; });
 
@@ -56,7 +56,7 @@ class RouterTest extends TestCase
         $this->assertEquals(null, $route);
     }
 
-    public function testGetWithOneParameterAndWhere()
+    public function testRegisterGetWithOneParameterAndWhere()
     {
         $this->router->get('/profile/{id}', 'profile', function ($id) {return 'profile '.$id; })->where(['id' => '[0-9]+']);
 
