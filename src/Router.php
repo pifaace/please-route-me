@@ -7,11 +7,6 @@ use Psr\Http\Message\ServerRequestInterface;
 class Router
 {
     /**
-     * @var Router instance
-     */
-    private static $_instance;
-
-    /**
      * @var RouterContainer
      */
     private $routes;
@@ -28,17 +23,15 @@ class Router
      */
     public function get(string $uri, string $name, $action): Route
     {
-        return $this->routes->addRoute($this->createRoute(['GET'], $uri, $name, $action));
+        return $this->routes->addRoute($this->createRoute('GET', $uri, $name, $action));
     }
 
     /**
      * Create a new route.
      *
      * @param callable|string $action
-     *
-     * @return Route
      */
-    private function createRoute(array $method, string $uri, string $name, $action): Route
+    private function createRoute(string $method, string $uri, string $name, $action): Route
     {
         if (\is_string($action)) {
             $action = $this->convertToControllerAction($action);
@@ -79,17 +72,5 @@ class Router
         }
 
         return null;
-    }
-
-    /**
-     * Return an unique instance of Router.
-     */
-    public static function getInstance(): Router
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new Router();
-        }
-
-        return self::$_instance;
     }
 }

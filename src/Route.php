@@ -8,9 +8,9 @@ namespace Piface\Router;
 class Route
 {
     /**
-     * @var array
+     * @var string
      */
-    private $methods;
+    private $method;
 
     /**
      * @var string
@@ -37,25 +37,19 @@ class Route
      */
     private $wheres = [];
 
-    public function __construct($method, $uri, $name, $action)
+    public function __construct(string $method, string $uri, string $name, $action)
     {
         $this->name = $name;
         $this->action = $action;
         $this->uri = $uri;
-        $this->methods = $method;
+        $this->method = $method;
     }
 
-    /**
-     * @return string
-     */
     public function getUri(): string
     {
         return $this->uri;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
@@ -69,23 +63,17 @@ class Route
         return $this->action;
     }
 
-    /**
-     * @return array
-     */
     public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    /**
-     * @param array $parameters
-     */
     public function setParameters(array $parameters): void
     {
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
-    public function where($expressions)
+    public function where(array $expressions)
     {
         $this->wheres = array_merge($this->wheres, $expressions);
 
@@ -97,19 +85,13 @@ class Route
         return $this->wheres;
     }
 
-    /**
-     * @return array
-     */
-    public function getMethods(): array
+    public function getMethod(): string
     {
-        return $this->methods;
+        return $this->method;
     }
 
-    /**
-     * @param array $methods
-     */
-    public function setMethods(array $methods): void
+    public function setMethods(string $method): void
     {
-        $this->methods = $methods;
+        $this->method = $method;
     }
 }

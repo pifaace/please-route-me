@@ -3,7 +3,7 @@
 namespace Piface\Router\Resolver;
 
 use GuzzleHttp\Psr7\Response;
-use Piface\Router\Exceptions\HttpResponseException;
+use Piface\Router\Exception\HttpResponseException;
 use Piface\Router\Route;
 
 class Controller
@@ -15,7 +15,7 @@ class Controller
      *
      * @throws HttpResponseException
      */
-    public function callAction(Route $route)
+    public function callAction(Route $route): Response
     {
         $exploded = explode('@', $route->getAction());
         $controllerName = array_shift($exploded);

@@ -2,7 +2,8 @@
 
 namespace Piface\Router;
 
-use Piface\Router\Exceptions\DuplicateRouteException;
+use Piface\Router\Exception\DuplicateRouteNameException;
+use Piface\Router\Exception\DuplicateRouteUriException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterContainer
@@ -22,33 +23,24 @@ class RouterContainer
     private $allRoutes = [];
 
     /**
-     * index all routes which hav been registered to not have duplication.
+     * index all routes which have been registered to avoid duplication.
      *
      * @var array
      */
     private $uri = [];
 
-    /**
-     * @param Route $route
-     *
-     * @return Route
-     */
     public function addRoute(Route $route): Route
     {
         if (\in_array($route->getUri(), $this->uri, true)) {
-            throw DuplicateRouteException::duplicateUri($route->getUri());
+            throw new DuplicateRouteUriException($route->getUri());
         }
 
         if (array_key_exists($route->getName(), $this->uri)) {
-            throw DuplicateRouteException::duplicateUriName($route->getName());
+            throw new DuplicateRouteNameException($route->getName());
         }
 
         $this->uri[$route->getName()] = $route->getUri();
-
-        foreach ($route->getMethods() as $method) {
-            $this->routes[$method][$route->getName()] = $route;
-        }
-
+        $this->routes[$route->getMethod()][$route->getName()] = $route;
         $this->allRoutes[] = $route;
 
         return $route;
@@ -56,11 +48,6 @@ class RouterContainer
 
     /**
      * Check if the current object route is matching the request route.
-     *
-     * @param ServerRequestInterface $request
-     * @param Route                  $route
-     *
-     * @return bool
      */
     public function match(ServerRequestInterface $request, Route $route): bool
     {
@@ -78,11 +65,9 @@ class RouterContainer
     }
 
     /**
-     * @param $method
-     *
-     * @return Route[]
+     * @return Route[]|[]
      */
-    public function getRoutesForSpecificMethod($method): array
+    public function getRoutesForSpecificMethod(string $method): array
     {
         if (array_key_exists($method, $this->routes)) {
             return $this->routes[$method];
@@ -92,28 +77,25 @@ class RouterContainer
     }
 
     /**
-     * @return array
+     * Return an array sorted by methods.
      */
     public function getRoutesByMethod(): array
     {
         return $this->routes;
     }
 
-    /**
-     * @return array
-     */
     public function getAllRoutes(): array
     {
         return $this->allRoutes;
     }
 
-    private function generatePath($route)
+    private function generatePath(Route $route)
     {
         $path = $route->getUri();
 
         if (!empty($route->getWhere())) {
             foreach ($route->getWhere() as $attribute => $where) {
-                $path = preg_replace('#{('.$attribute.')}#', '('.$where.')', $path);
+                $path = preg_replace('#{(' . $attribute . ')}#', '(' . $where . ')', $path);
             }
         }
         $path = preg_replace("#{([\w]+)}#", '([^/]+)', $path);

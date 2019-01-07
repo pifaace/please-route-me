@@ -57,7 +57,7 @@ class RouterTest extends TestCase
     }
 
     /**
-     * @expectedException \Piface\Router\Exceptions\DuplicateRouteException
+     * @expectedException \Piface\Router\Exception\DuplicateRouteUriException
      */
     public function testDuplicateUri()
     {
@@ -66,7 +66,7 @@ class RouterTest extends TestCase
     }
 
     /**
-     * @expectedException \Piface\Router\Exceptions\DuplicateRouteException
+     * @expectedException \Piface\Router\Exception\DuplicateRouteNameException
      */
     public function testDuplicateRouteName()
     {
