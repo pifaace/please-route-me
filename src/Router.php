@@ -4,7 +4,7 @@ namespace Piface\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-class Router
+class Router implements RouterInterface
 {
     /**
      * @var RouterContainer
@@ -24,6 +24,33 @@ class Router
     public function get(string $uri, string $name, $action): Route
     {
         return $this->routes->addRoute($this->createRoute('GET', $uri, $name, $action));
+    }
+
+    /**
+     * Return an array of all routes.
+     *
+     * @return Route[]
+     */
+    public function getAllRoutes(): array
+    {
+        return $this->routes->getAllRoutes();
+    }
+
+    /**
+     * Compare the given request with routes in the routerContainer.
+     */
+    public function match(ServerRequestInterface $request): ?Route
+    {
+        // At first we need ton determine which type of method is called
+        $method = $request->getMethod();
+
+        foreach ($this->routes->getRoutesForSpecificMethod($method) as $route) {
+            if ($this->routes->match($request, $route)) {
+                return $route;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -48,29 +75,5 @@ class Router
         $action = 'App\\Controller\\'.$action;
 
         return $action;
-    }
-
-    /**
-     * Return an array of all routes.
-     *
-     * @return Route[]
-     */
-    public function getAllRoutes(): array
-    {
-        return $this->routes->getAllRoutes();
-    }
-
-    public function match(ServerRequestInterface $request): ?Route
-    {
-        // At first we need ton determine which type of method is called
-        $method = $request->getMethod();
-
-        foreach ($this->routes->getRoutesForSpecificMethod($method) as $route) {
-            if ($this->routes->match($request, $route)) {
-                return $route;
-            }
-        }
-
-        return null;
     }
 }
