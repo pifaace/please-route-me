@@ -56,24 +56,6 @@ class RouterTest extends TestCase
         $this->assertEquals(null, $route);
     }
 
-    /**
-     * @expectedException \Piface\Router\Exception\DuplicateRouteUriException
-     */
-    public function testDuplicateUri()
-    {
-        $this->router->get('/foo', 'foo', function () {return 'hello from foo'; });
-        $this->router->get('/foo', 'bar', function () {return 'bar'; });
-    }
-
-    /**
-     * @expectedException \Piface\Router\Exception\DuplicateRouteNameException
-     */
-    public function testDuplicateRouteName()
-    {
-        $this->router->get('/foofoo', 'foo', function () {return 'hello from foo'; });
-        $this->router->get('/foo', 'foo', function () {return 'foo'; });
-    }
-
     public function testGetWithOneParameterAndWhere()
     {
         $this->router->get('/profile/{id}', 'profile', function ($id) {return 'profile '.$id; })->where(['id' => '[0-9]+']);
