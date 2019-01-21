@@ -29,9 +29,16 @@ To add a route, `GET` for the exemple, declare it like this :
 ````
 
 Each route you will create will be built with the same three parameters.
-* An `$uri`
+* a `$path`
 * A `$name`
-* A `callback` _(a name controller soon)_
+* A `callback` or a `string` like name's controller
+
+```php
+<?php
+    $router->get('/home', 'home', 'indexController@home');
+?>
+```
+**_obviously, you need to implement a `controller resolver` to do that._**
 
 In a second time, you can easily add some parameters in your route definition :
 ```php
@@ -54,9 +61,34 @@ The method will return a `Route` object or null if no available route is found.
 
 [Here](https://packagist.org/providers/psr/http-message-implementation) some packages that you can implement.
 
-WORK IN PROGRESS
+## Full exemple
+
+This exemple below comes from an index.php that implements the router :
+
+```php
+<?php
+
+use Piface\Router\Router;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$router = new Router();
+
+$router->get('/home/{id}/{foo}', 'home', function ($id) {
+   echo 'hi from home ' . $id;
+})->where(['id' => '[0-9]']);
+
+$request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+
+$route = $router->match($request);
+
+// call the action route
+\call_user_func_array($route->getAction(), $route->getParameters()); // hi from home $id
+?>
+```
 
 ## Go further
 
-These topics cover the advanced usages of the router
-
+These topics cover the advanced usages of the router :
+* [Building Routes](https://github.com/pifaace/please-route-me/blob/master/docs/building-routes.md)
+WORK IN PROGRESS
