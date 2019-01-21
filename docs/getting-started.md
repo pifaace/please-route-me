@@ -1,4 +1,4 @@
-# Getting started
+### Getting started
 
 Please-route-me is a router built around one main object called `Router`. It allows you to 
 define a route, match an requested route, get all routes and more.
@@ -46,7 +46,7 @@ you can call the `matcher()` from `Router`
     $route = $router->match($request);
 ?>
 ```
-The method will return a `Route` object or null if available route is found.
+The method will return a `Route` object or null if no available route is found.
 
 [Here](https://packagist.org/providers/psr/http-message-implementation) some packages that you can implement.
 
