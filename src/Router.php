@@ -60,20 +60,6 @@ class Router implements RouterInterface
      */
     private function createRoute(string $method, string $path, string $name, $action): Route
     {
-        if (\is_string($action)) {
-            $action = $this->convertToControllerAction($action);
-        }
-
         return new Route($method, $path, $name, $action);
-    }
-
-    /**
-     * Convert a string action like "IndexController@index" to a namespace.
-     */
-    private function convertToControllerAction(string $action): string
-    {
-        $action = 'App\\Controller\\'.$action;
-
-        return $action;
     }
 }
