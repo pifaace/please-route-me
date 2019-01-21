@@ -25,7 +25,7 @@ class Route
     /**
      * @var string
      */
-    private $uri;
+    private $path;
 
     /**
      * @var array
@@ -37,17 +37,17 @@ class Route
      */
     private $wheres = [];
 
-    public function __construct(string $method, string $uri, string $name, $action)
+    public function __construct(string $method, string $path, string $name, $action)
     {
         $this->name = $name;
         $this->action = $action;
-        $this->uri = $uri;
+        $this->path = $path;
         $this->method = $method;
     }
 
-    public function getUri(): string
+    public function getPath(): string
     {
-        return $this->uri;
+        return $this->path;
     }
 
     public function getName(): string

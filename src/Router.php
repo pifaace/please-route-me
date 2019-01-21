@@ -21,9 +21,9 @@ class Router implements RouterInterface
      *
      * @param callable|string $action
      */
-    public function get(string $uri, string $name, $action): Route
+    public function get(string $path, string $name, $action): Route
     {
-        return $this->routes->addRoute($this->createRoute('GET', $uri, $name, $action));
+        return $this->routes->addRoute($this->createRoute('GET', $path, $name, $action));
     }
 
     /**
@@ -58,13 +58,13 @@ class Router implements RouterInterface
      *
      * @param callable|string $action
      */
-    private function createRoute(string $method, string $uri, string $name, $action): Route
+    private function createRoute(string $method, string $path, string $name, $action): Route
     {
         if (\is_string($action)) {
             $action = $this->convertToControllerAction($action);
         }
 
-        return new Route($method, $uri, $name, $action);
+        return new Route($method, $path, $name, $action);
     }
 
     /**

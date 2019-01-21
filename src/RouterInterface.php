@@ -11,7 +11,7 @@ interface RouterInterface
      *
      * @param callable|string $action
      */
-    public function get(string $uri, string $name, $action): Route;
+    public function get(string $path, string $name, $action): Route;
 
     /**
      * Compare the given request with routes in the routerContainer.

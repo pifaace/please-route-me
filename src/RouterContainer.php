@@ -27,19 +27,19 @@ class RouterContainer
      *
      * @var array
      */
-    private $uri = [];
+    private $path = [];
 
     public function addRoute(Route $route): Route
     {
-        if (\in_array($route->getUri(), $this->uri, true)) {
-            throw new DuplicateRouteUriException($route->getUri());
+        if (\in_array($route->getPath(), $this->path, true)) {
+            throw new DuplicateRouteUriException($route->getPath());
         }
 
-        if (array_key_exists($route->getName(), $this->uri)) {
+        if (array_key_exists($route->getName(), $this->path)) {
             throw new DuplicateRouteNameException($route->getName());
         }
 
-        $this->uri[$route->getName()] = $route->getUri();
+        $this->path[$route->getName()] = $route->getPath();
         $this->routes[$route->getMethod()][$route->getName()] = $route;
         $this->allRoutes[] = $route;
 
@@ -51,10 +51,10 @@ class RouterContainer
      */
     public function match(ServerRequestInterface $request, Route $route): bool
     {
-        $uri = $request->getUri()->getPath();
+        $requestedPath = $request->getUri()->getPath();
         $path = $this->generatePath($route);
 
-        if (!preg_match("#^$path$#i", $uri, $matches)) {
+        if (!preg_match("#^$path$#i", $requestedPath, $matches)) {
             return false;
         }
 
@@ -91,7 +91,7 @@ class RouterContainer
 
     private function generatePath(Route $route)
     {
-        $path = $route->getUri();
+        $path = $route->getPath();
 
         if (!empty($route->getWhere())) {
             foreach ($route->getWhere() as $attribute => $where) {
