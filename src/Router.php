@@ -2,6 +2,7 @@
 
 namespace Piface\Router;
 
+use Piface\Router\Exception\MethodNotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Router implements RouterInterface
@@ -9,11 +10,11 @@ class Router implements RouterInterface
     /**
      * @var RouterContainer
      */
-    private $routes;
+    private $routeContainer;
 
     public function __construct()
     {
-        $this->routes = new RouterContainer();
+        $this->routeContainer = new RouterContainer();
     }
 
     /**
@@ -23,17 +24,9 @@ class Router implements RouterInterface
      */
     public function get(string $path, string $name, $action): Route
     {
-        return $this->routes->addRoute($this->createRoute('GET', $path, $name, $action));
-    }
-
-    /**
-     * Return an array of all routes.
-     *
-     * @return Route[]
-     */
-    public function getAllRoutes(): array
-    {
-        return $this->routes->getAllRoutes();
+        $route = $this->createRoute($path, $name, $action);
+        $route->allows('GET');
+        return $this->routeContainer->addRoute($route);
     }
 
     /**
@@ -41,16 +34,23 @@ class Router implements RouterInterface
      */
     public function match(ServerRequestInterface $request): ?Route
     {
-        // At first we need ton determine which type of method is called
-        $method = $request->getMethod();
+        foreach ($this->routeContainer->getRoutes() as $route) {
 
-        foreach ($this->routes->getRoutesForSpecificMethod($method) as $route) {
-            if ($this->routes->match($request, $route)) {
+            if ($this->routeContainer->match($request, $route)) {
+                if (!in_array($request->getMethod(), $route->getAllows())) {
+                    throw new MethodNotAllowedException($route->getAllows(), $request->getUri()->getPath());
+                }
+
                 return $route;
             }
         }
 
         return null;
+    }
+    
+    public function getRoutes()
+    {
+        return $this->routeContainer->getRoutes();
     }
 
     /**
@@ -58,8 +58,8 @@ class Router implements RouterInterface
      *
      * @param callable|string $action
      */
-    private function createRoute(string $method, string $path, string $name, $action): Route
+    private function createRoute(string $path, string $name, $action): Route
     {
-        return new Route($method, $path, $name, $action);
+        return new Route($path, $name, $action);
     }
 }

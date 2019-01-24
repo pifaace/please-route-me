@@ -4,23 +4,17 @@ namespace Piface\Router;
 
 use Piface\Router\Exception\DuplicateRouteNameException;
 use Piface\Router\Exception\DuplicateRouteUriException;
+use Piface\Router\Exception\MethodNotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterContainer
 {
     /**
-     * All routes sort by method.
-     *
-     * @var array
-     */
-    private $routes = [];
-
-    /**
-     * An array of all routes.
+     * Array of route objects
      *
      * @var Route[]
      */
-    private $allRoutes = [];
+    private $routes = [];
 
     /**
      * index all routes which have been registered to avoid duplication.
@@ -40,8 +34,7 @@ class RouterContainer
         }
 
         $this->path[$route->getName()] = $route->getPath();
-        $this->routes[$route->getMethod()][$route->getName()] = $route;
-        $this->allRoutes[] = $route;
+        $this->routes[$route->getName()] = $route;
 
         return $route;
     }
@@ -65,31 +58,14 @@ class RouterContainer
     }
 
     /**
-     * @return Route[]|[]
+     * @return Route[]
      */
-    public function getRoutesForSpecificMethod(string $method): array
-    {
-        if (array_key_exists($method, $this->routes)) {
-            return $this->routes[$method];
-        }
-
-        return [];
-    }
-
-    /**
-     * Return an array sorted by methods.
-     */
-    public function getRoutesByMethod(): array
+    public function getRoutes(): array
     {
         return $this->routes;
     }
 
-    public function getAllRoutes(): array
-    {
-        return $this->allRoutes;
-    }
-
-    private function generatePath(Route $route)
+    private function generatePath(Route $route): string
     {
         $path = $route->getPath();
 

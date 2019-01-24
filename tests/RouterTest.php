@@ -4,6 +4,7 @@ namespace Tests\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Piface\Router\Exception\MethodNotAllowedException;
 use Piface\Router\Router;
 
 class RouterTest extends TestCase
@@ -23,7 +24,7 @@ class RouterTest extends TestCase
         $this->router->get('/foo', 'foo', function () {return 'hello from foo'; });
         $this->router->get('/blo', 'blo', function () {return 'blo'; });
 
-        $this->assertCount(2, $this->router->getAllRoutes());
+        $this->assertCount(2, $this->router->getRoutes());
     }
 
     public function testRegisterGetMethodWithNoParameter()
@@ -82,5 +83,15 @@ class RouterTest extends TestCase
 
         $this->assertEquals('profile 34Az', \call_user_func_array($validRoute->getAction(), $validRoute->getParameters()));
         $this->assertEquals(null, $invalidRoute);
+    }
+
+    /**
+     * @expectedException \Piface\Router\Exception\MethodNotAllowedException
+     */
+    public function testGetWithNotAllowedHttpMethod()
+    {
+        $this->router->get('/home', 'home', function (){});
+        $request = new ServerRequest('POST', '/home');
+        $this->router->match($request);
     }
 }

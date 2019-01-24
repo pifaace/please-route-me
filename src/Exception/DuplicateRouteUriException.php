@@ -2,7 +2,9 @@
 
 namespace Piface\Router\Exception;
 
-class DuplicateRouteUriException extends \Exception
+use Piface\Router\Exception;
+
+class DuplicateRouteUriException extends Exception
 {
     public function __construct(string $uri)
     {

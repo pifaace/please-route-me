@@ -8,9 +8,11 @@ namespace Piface\Router;
 class Route
 {
     /**
-     * @var string
+     * List of allow HTTP verbs
+     *
+     * @var array
      */
-    private $method;
+    private $allows = [];
 
     /**
      * @var string
@@ -37,12 +39,31 @@ class Route
      */
     private $wheres = [];
 
-    public function __construct(string $method, string $path, string $name, $action)
+    public function __construct(string $path, string $name, $action)
     {
         $this->name = $name;
         $this->action = $action;
         $this->path = $path;
-        $this->method = $method;
+    }
+
+    /**
+     * Set a where rule to your route.
+     */
+    public function where(array $expressions): Route
+    {
+        $this->wheres = array_merge($this->wheres, $expressions);
+
+        return $this;
+    }
+
+    /**
+     * @param string|array $allow
+     */
+    public function allows($allows): Route
+    {
+        $this->allows = array_merge($this->allows, (array) $allows);
+
+        return $this;
     }
 
     public function getPath(): string
@@ -73,25 +94,13 @@ class Route
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
-    public function where(array $expressions)
-    {
-        $this->wheres = array_merge($this->wheres, $expressions);
-
-        return $this;
-    }
-
     public function getWhere(): array
     {
         return $this->wheres;
     }
 
-    public function getMethod(): string
+    public function getAllows(): array
     {
-        return $this->method;
-    }
-
-    public function setMethods(string $method): void
-    {
-        $this->method = $method;
+        return $this->allows;
     }
 }

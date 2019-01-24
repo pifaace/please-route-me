@@ -21,7 +21,7 @@ class RouterContainerTest extends TestCase
 
     public function testAddRoute()
     {
-        $route = new Route('GET', '/foo', 'foo', function (){});
+        $route = new Route('/foo', 'foo', function (){});
 
         $routeReturned = $this->routerContainer->addRoute($route);
 
@@ -33,8 +33,8 @@ class RouterContainerTest extends TestCase
      */
     public function testDuplicateUri()
     {
-        $route1 = new Route('GET', '/foo', 'foo', function (){});
-        $route2 = new Route('GET', '/foo', 'bar', function (){});
+        $route1 = new Route('/foo', 'foo', function (){});
+        $route2 = new Route('/foo', 'bar', function (){});
 
         $this->routerContainer->addRoute($route1);
         $this->routerContainer->addRoute($route2);
@@ -45,8 +45,8 @@ class RouterContainerTest extends TestCase
      */
     public function testDuplicateRouteName()
     {
-        $route1 = new Route('GET', '/foo', 'foo', function (){});
-        $route2 = new Route('GET', '/bar', 'foo', function (){});
+        $route1 = new Route('/foo', 'foo', function (){});
+        $route2 = new Route('/bar', 'foo', function (){});
 
         $this->routerContainer->addRoute($route1);
         $this->routerContainer->addRoute($route2);
@@ -54,7 +54,7 @@ class RouterContainerTest extends TestCase
 
     public function testMatch()
     {
-        $route = new Route('GET', '/user/{id}', 'user', function () {});
+        $route = new Route('/user/{id}', 'user', function () {});
         $request = new ServerRequest('GET', '/user/3');
         $match = $this->routerContainer->match($request, $route);
 
@@ -63,7 +63,7 @@ class RouterContainerTest extends TestCase
 
     public function testRouteDoesntMatchWithRouteCalled()
     {
-        $route = new Route('GET', '/user/{id}', 'user', function () {});
+        $route = new Route('/user/{id}', 'user', function () {});
         $request = new ServerRequest('GET', '/foo');
         $match = $this->routerContainer->match($request, $route);
 
@@ -72,7 +72,7 @@ class RouterContainerTest extends TestCase
 
     public function testMatchWithCustomRegex()
     {
-        $route = new Route('GET', '/user/{id}', 'user', function () {});
+        $route = new Route('/user/{id}', 'user', function () {});
         $route->where(['id' => '[a-z]+']);
         $invalidRequest = new ServerRequest('GET', '/user/3');
         $validRequest = new ServerRequest('GET', '/user/zd');
@@ -84,18 +84,23 @@ class RouterContainerTest extends TestCase
         $this->assertEquals(true, $result);
     }
 
-    public function testGetRoutesForGetMethod()
+    public function testGetRoutes()
     {
-        $route1 = new Route('GET', '/user/{id}', 'user', function () {});
-        $route2 = new Route('POST', '/submit', 'submit', function () {});
-        $route3 = new Route('POST', '/foo', 'foo', function () {});
+        foreach ($this->getRouteNames() as $path => $routeName){
+            $route = new Route($path, $routeName, function (){});
+            $this->routerContainer->addRoute($route);
+        }
 
-        $this->routerContainer->addRoute($route1);
-        $this->routerContainer->addRoute($route2);
-        $this->routerContainer->addRoute($route3);
+        $this->assertCount(4, $this->routerContainer->getRoutes());
+    }
 
-        $routes = $this->routerContainer->getRoutesForSpecificMethod('GET');
-
-        $this->assertCount(1, $routes);
+    private function getRouteNames()
+    {
+        return [
+            '/foo' => 'foo',
+            '/bar' => 'bar',
+            '/baar' => 'baar',
+            '/doe' => 'doe'
+        ];
     }
 }
