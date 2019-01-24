@@ -19,10 +19,10 @@ class RouterTest extends TestCase
         $this->router = new Router();
     }
 
-    public function testRegisterGetRoute()
+    public function testRegisterRoutes()
     {
         $this->router->get('/foo', 'foo', function () {return 'hello from foo'; });
-        $this->router->get('/blo', 'blo', function () {return 'blo'; });
+        $this->router->post('/blo', 'blo', function () {return 'blo'; });
 
         $this->assertCount(2, $this->router->getRoutes());
     }
@@ -88,10 +88,20 @@ class RouterTest extends TestCase
     /**
      * @expectedException \Piface\Router\Exception\MethodNotAllowedException
      */
-    public function testGetWithNotAllowedHttpMethod()
+    public function testAccesseToGetRouteWithNotAllowedMethod()
     {
         $this->router->get('/home', 'home', function (){});
         $request = new ServerRequest('POST', '/home');
+        $this->router->match($request);
+    }
+
+    /**
+     * @expectedException \Piface\Router\Exception\MethodNotAllowedException
+     */
+    public function testAccesseToPostRouteWithNotAllowedMethod()
+    {
+        $this->router->post('/home', 'home', function (){});
+        $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
 }
