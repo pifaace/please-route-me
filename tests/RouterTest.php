@@ -114,4 +114,14 @@ class RouterTest extends TestCase
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
+
+    /**
+     * @expectedException \Piface\Router\Exception\MethodNotAllowedException
+     */
+    public function testAccesseToDeleteRouteWithNotAllowedMethod()
+    {
+        $this->router->delete('/home', 'home', function (){});
+        $request = new ServerRequest('GET', '/home');
+        $this->router->match($request);
+    }
 }
