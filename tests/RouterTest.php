@@ -104,4 +104,14 @@ class RouterTest extends TestCase
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
+
+    /**
+     * @expectedException \Piface\Router\Exception\MethodNotAllowedException
+     */
+    public function testAccesseToPutRouteWithNotAllowedMethod()
+    {
+        $this->router->put('/home', 'home', function (){});
+        $request = new ServerRequest('GET', '/home');
+        $this->router->match($request);
+    }
 }
