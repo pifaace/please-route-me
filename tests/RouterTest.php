@@ -4,7 +4,6 @@ namespace Tests\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Piface\Router\Exception\MethodNotAllowedException;
 use Piface\Router\Router;
 
 class RouterTest extends TestCase
@@ -121,6 +120,16 @@ class RouterTest extends TestCase
     public function testAccesseToDeleteRouteWithNotAllowedMethod()
     {
         $this->router->delete('/home', 'home', function (){});
+        $request = new ServerRequest('GET', '/home');
+        $this->router->match($request);
+    }
+
+    /**
+     * @expectedException \Piface\Router\Exception\MethodNotAllowedException
+     */
+    public function testAccesseToPatchRouteWithNotAllowedMethod()
+    {
+        $this->router->patch('/home', 'home', function (){});
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
