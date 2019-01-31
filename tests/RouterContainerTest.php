@@ -21,7 +21,7 @@ class RouterContainerTest extends TestCase
 
     public function testAddRoute()
     {
-        $route = new Route('/foo', 'foo', function (){});
+        $route = new Route('/foo', 'foo', function () {});
 
         $routeReturned = $this->routerContainer->addRoute($route);
 
@@ -33,8 +33,8 @@ class RouterContainerTest extends TestCase
      */
     public function testDuplicateUri()
     {
-        $route1 = new Route('/foo', 'foo', function (){});
-        $route2 = new Route('/foo', 'bar', function (){});
+        $route1 = new Route('/foo', 'foo', function () {});
+        $route2 = new Route('/foo', 'bar', function () {});
 
         $this->routerContainer->addRoute($route1);
         $this->routerContainer->addRoute($route2);
@@ -45,8 +45,8 @@ class RouterContainerTest extends TestCase
      */
     public function testDuplicateRouteName()
     {
-        $route1 = new Route('/foo', 'foo', function (){});
-        $route2 = new Route('/bar', 'foo', function (){});
+        $route1 = new Route('/foo', 'foo', function () {});
+        $route2 = new Route('/bar', 'foo', function () {});
 
         $this->routerContainer->addRoute($route1);
         $this->routerContainer->addRoute($route2);
@@ -86,8 +86,8 @@ class RouterContainerTest extends TestCase
 
     public function testGetRoutes()
     {
-        foreach ($this->getRouteNames() as $path => $routeName){
-            $route = new Route($path, $routeName, function (){});
+        foreach ($this->getRouteNames() as $path => $routeName) {
+            $route = new Route($path, $routeName, function () {});
             $this->routerContainer->addRoute($route);
         }
 
@@ -100,7 +100,7 @@ class RouterContainerTest extends TestCase
             '/foo' => 'foo',
             '/bar' => 'bar',
             '/baar' => 'baar',
-            '/doe' => 'doe'
+            '/doe' => 'doe',
         ];
     }
 }

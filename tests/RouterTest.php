@@ -89,7 +89,7 @@ class RouterTest extends TestCase
      */
     public function testAccesseToGetRouteWithNotAllowedMethod()
     {
-        $this->router->get('/home', 'home', function (){});
+        $this->router->get('/home', 'home', function () {});
         $request = new ServerRequest('POST', '/home');
         $this->router->match($request);
     }
@@ -99,7 +99,7 @@ class RouterTest extends TestCase
      */
     public function testAccesseToPostRouteWithNotAllowedMethod()
     {
-        $this->router->post('/home', 'home', function (){});
+        $this->router->post('/home', 'home', function () {});
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
@@ -109,7 +109,7 @@ class RouterTest extends TestCase
      */
     public function testAccesseToPutRouteWithNotAllowedMethod()
     {
-        $this->router->put('/home', 'home', function (){});
+        $this->router->put('/home', 'home', function () {});
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
@@ -119,7 +119,7 @@ class RouterTest extends TestCase
      */
     public function testAccesseToDeleteRouteWithNotAllowedMethod()
     {
-        $this->router->delete('/home', 'home', function (){});
+        $this->router->delete('/home', 'home', function () {});
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
@@ -129,7 +129,7 @@ class RouterTest extends TestCase
      */
     public function testAccesseToPatchRouteWithNotAllowedMethod()
     {
-        $this->router->patch('/home', 'home', function (){});
+        $this->router->patch('/home', 'home', function () {});
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
@@ -139,7 +139,7 @@ class RouterTest extends TestCase
      */
     public function testAccesseToOptionsRouteWithNotAllowedMethod()
     {
-        $this->router->options('/home', 'home', function (){});
+        $this->router->options('/home', 'home', function () {});
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }

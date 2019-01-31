@@ -4,13 +4,12 @@ namespace Piface\Router;
 
 use Piface\Router\Exception\DuplicateRouteNameException;
 use Piface\Router\Exception\DuplicateRouteUriException;
-use Piface\Router\Exception\MethodNotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterContainer
 {
     /**
-     * Array of route objects
+     * Array of route objects.
      *
      * @var Route[]
      */
@@ -71,7 +70,7 @@ class RouterContainer
 
         if (!empty($route->getWhere())) {
             foreach ($route->getWhere() as $attribute => $where) {
-                $path = preg_replace('#{(' . $attribute . ')}#', '(' . $where . ')', $path);
+                $path = preg_replace('#{('.$attribute.')}#', '('.$where.')', $path);
             }
         }
         $path = preg_replace("#{([\w]+)}#", '([^/]+)', $path);

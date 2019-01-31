@@ -26,6 +26,7 @@ class Router implements RouterInterface
     {
         $route = $this->createRoute($path, $name, $action);
         $route->allows('GET');
+
         return $this->routeContainer->addRoute($route);
     }
 
@@ -33,6 +34,7 @@ class Router implements RouterInterface
     {
         $route = $this->createRoute($path, $name, $action);
         $route->allows('POST');
+
         return $this->routeContainer->addRoute($route);
     }
 
@@ -40,6 +42,7 @@ class Router implements RouterInterface
     {
         $route = $this->createRoute($path, $name, $action);
         $route->allows('PUT');
+
         return $this->routeContainer->addRoute($route);
     }
 
@@ -47,6 +50,7 @@ class Router implements RouterInterface
     {
         $route = $this->createRoute($path, $name, $action);
         $route->allows('DELETE');
+
         return $this->routeContainer->addRoute($route);
     }
 
@@ -54,6 +58,7 @@ class Router implements RouterInterface
     {
         $route = $this->createRoute($path, $name, $action);
         $route->allows('PATCH');
+
         return $this->routeContainer->addRoute($route);
     }
 
@@ -61,6 +66,7 @@ class Router implements RouterInterface
     {
         $route = $this->createRoute($path, $name, $action);
         $route->allows('OPTIONS');
+
         return $this->routeContainer->addRoute($route);
     }
 
@@ -70,7 +76,6 @@ class Router implements RouterInterface
     public function match(ServerRequestInterface $request): ?Route
     {
         foreach ($this->routeContainer->getRoutes() as $route) {
-
             if ($this->routeContainer->match($request, $route)) {
                 if (!in_array($request->getMethod(), $route->getAllows())) {
                     throw new MethodNotAllowedException($route->getAllows(), $request->getUri()->getPath());
@@ -82,7 +87,7 @@ class Router implements RouterInterface
 
         return null;
     }
-    
+
     public function getRoutes()
     {
         return $this->routeContainer->getRoutes();

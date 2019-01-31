@@ -8,7 +8,7 @@ namespace Piface\Router;
 class Route
 {
     /**
-     * List of allow HTTP verbs
+     * List of allow HTTP verbs.
      *
      * @var array
      */
