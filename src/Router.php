@@ -57,6 +57,13 @@ class Router implements RouterInterface
         return $this->routeContainer->addRoute($route);
     }
 
+    public function options(string $path, string $name, $action): Route
+    {
+        $route = $this->createRoute($path, $name, $action);
+        $route->allows('OPTIONS');
+        return $this->routeContainer->addRoute($route);
+    }
+
     /**
      * Compare the given request with routes in the routerContainer.
      */
