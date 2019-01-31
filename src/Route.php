@@ -61,7 +61,7 @@ class Route
      */
     public function allows($allows): Route
     {
-        $this->allows = array_merge($this->allows, (array) strtoupper($allows));
+        $this->allows = array_merge($this->allows, (array) $allows);
 
         return $this;
     }

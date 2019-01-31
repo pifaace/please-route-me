@@ -143,4 +143,25 @@ class RouterTest extends TestCase
         $request = new ServerRequest('GET', '/home');
         $this->router->match($request);
     }
+
+    public function testAddHttpVerbToARoute()
+    {
+        $this->router->get('/home', 'home', function () {})->allows('POST');
+        $request = new ServerRequest('POST', '/home');
+        $route = $this->router->match($request);
+
+        $this->assertEquals('home', $route->getName());
+    }
+
+    public function testAddSomeHttpVerbsToARoute()
+    {
+        $this->router->get('/home', 'home', function () {})->allows(['POST', 'PUT']);
+        $postRequest = new ServerRequest('POST', '/home');
+        $putRequest = new ServerRequest('PUT', '/home');
+        $postRoute = $this->router->match($postRequest);
+        $putRoute = $this->router->match($putRequest);
+
+        $this->assertEquals('home', $postRoute->getName());
+        $this->assertEquals('home', $putRoute->getName());
+    }
 }
