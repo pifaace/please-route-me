@@ -23,6 +23,10 @@ Also, you can add some HTTP verb on each route like this :
 $router->post('/home', 'home', function () {
     echo 'hi from home';
 })->allows('GET'); # this route will accept {POST, GET} verbs
+
+$router->post('/contact', 'contact', function () {
+    echo 'hi from contact page';
+})->allows(['GET', 'PUT']); # this route will accept {POST, GET, PUT} verbs
 ?>
 ```
 
