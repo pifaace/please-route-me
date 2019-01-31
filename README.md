@@ -19,7 +19,7 @@ Then you can start to add a custom route.
 
 ## Adding a simple route
 
-To add a route, `GET` for the exemple, declare it like this :
+To add a route, `GET` for the example, declare it like this :
 ```php
 <?php
     $router->get('/home', 'home', function () {
@@ -61,9 +61,9 @@ The method will return a `Route` object or null if no available route is found.
 
 [Here](https://packagist.org/providers/psr/http-message-implementation) some packages that you can implement.
 
-## Full exemple
+## Full example
 
-This exemple below comes from an index.php that implements the router :
+This example below comes from an index.php that implements the router :
 
 ```php
 <?php
