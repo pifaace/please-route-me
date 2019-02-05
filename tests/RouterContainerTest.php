@@ -29,9 +29,9 @@ class RouterContainerTest extends TestCase
     }
 
     /**
-     * @expectedException \Piface\Router\Exception\DuplicateRouteUriException
+     * @expectedException \Piface\Router\Exception\DuplicateRoutePathException
      */
-    public function testDuplicateUri()
+    public function testDuplicatePath()
     {
         $route1 = new Route('/foo', 'foo', function () {});
         $route2 = new Route('/foo', 'bar', function () {});

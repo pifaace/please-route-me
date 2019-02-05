@@ -3,7 +3,7 @@
 namespace Piface\Router;
 
 use Piface\Router\Exception\DuplicateRouteNameException;
-use Piface\Router\Exception\DuplicateRouteUriException;
+use Piface\Router\Exception\DuplicateRoutePathException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterContainer
@@ -25,7 +25,7 @@ class RouterContainer
     public function addRoute(Route $route): Route
     {
         if (\in_array($route->getPath(), $this->path, true)) {
-            throw new DuplicateRouteUriException($route->getPath());
+            throw new DuplicateRoutePathException($route->getPath());
         }
 
         if (array_key_exists($route->getName(), $this->path)) {
