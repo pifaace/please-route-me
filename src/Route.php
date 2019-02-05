@@ -103,4 +103,15 @@ class Route
     {
         return $this->allows;
     }
+
+    public function generatePath(array $params = []): string
+    {
+        return preg_replace_callback('/\{(.*?)\}/', function ($m) use (&$params) {
+            if (isset($params[$m[1]])) {
+                return $params[$m[1]];
+            }
+
+            return $m[0];
+        }, $this->getPath());
+    }
 }

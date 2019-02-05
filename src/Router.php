@@ -96,6 +96,11 @@ class Router implements RouterInterface
         return $this->routeContainer->getRoutes();
     }
 
+    public function generate(string $name, array $params = []): string
+    {
+        return $this->routeContainer->generatePath($name, $params);
+    }
+
     /**
      * Create a new route.
      *

@@ -57,11 +57,30 @@ class RouterContainer
     }
 
     /**
+     * @return string|Exception
+     */
+    public function generatePath(string $name, $params = [])
+    {
+        return $this->getRouteByName($name)->generatePath($params);
+    }
+
+    /**
      * @return Route[]
      */
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    /**
+     * @return Route|Exception
+     */
+    public function getRouteByName($name) {
+        if (!array_key_exists($name, $this->path)) {
+            throw new RouteNotFoundException($name);
+        }
+
+        return $this->routes[$name];
     }
 
     private function argsResolver(Route $route): string
