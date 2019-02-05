@@ -76,7 +76,7 @@ $router = new Router();
 
 $router->get('/home/{id}/{foo}', 'home', function ($id) {
    echo 'hi from home ' . $id;
-})->where(['id' => '[0-9]']);
+})->where(['id' => '[0-9]+']);
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 
