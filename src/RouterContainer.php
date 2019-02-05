@@ -44,7 +44,7 @@ class RouterContainer
     public function match(ServerRequestInterface $request, Route $route): bool
     {
         $requestedPath = $request->getUri()->getPath();
-        $path = $this->generatePath($route);
+        $path = $this->argsResolver($route);
 
         if (!preg_match("#^$path$#i", $requestedPath, $matches)) {
             return false;
@@ -64,7 +64,7 @@ class RouterContainer
         return $this->routes;
     }
 
-    private function generatePath(Route $route): string
+    private function argsResolver(Route $route): string
     {
         $path = $route->getPath();
 
