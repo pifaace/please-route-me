@@ -88,7 +88,10 @@ class Router implements RouterInterface
         return null;
     }
 
-    public function getRoutes()
+    /**
+     * @return Route[]
+     */
+    public function getRoutes(): array
     {
         return $this->routeContainer->getRoutes();
     }
