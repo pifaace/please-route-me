@@ -97,6 +97,14 @@ class Router implements RouterInterface
     }
 
     /**
+     * Allow to generate a path for an existing route by its name.
+     */
+    public function generate(string $name, array $params = []): string
+    {
+        return $this->routeContainer->generatePath($name, $params);
+    }
+
+    /**
      * Create a new route.
      *
      * @param callable|string $action

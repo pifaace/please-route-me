@@ -94,6 +94,67 @@ class RouterContainerTest extends TestCase
         $this->assertCount(4, $this->routerContainer->getRoutes());
     }
 
+    public function testGetRouteByName()
+    {
+        $route = new Route('/home', 'home', function () {});
+
+        $this->routerContainer->addRoute($route);
+        $route = $this->routerContainer->getRouteByName('home');
+
+        $this->assertEquals('home', $route->getName());
+    }
+
+    /**
+     * @expectedException  \Piface\Router\Exception\RouteNotFoundException
+     */
+    public function testFindRouteWithNonexistentName()
+    {
+        $route = new Route('/home', 'home', function () {});
+
+        $this->routerContainer->addRoute($route);
+        $this->routerContainer->getRouteByName('foo');
+    }
+
+    public function testGeneratePathWithoutParams()
+    {
+        $route = new Route('/home', 'home', function () {});
+
+        $this->routerContainer->addRoute($route);
+        $path = $this->routerContainer->generatePath('home');
+
+        $this->assertEquals('/home', $path);
+    }
+
+    public function testGeneratePathWithoutParamsValueSpecified()
+    {
+        $route = new Route('/user/{id}', 'user', function () {});
+
+        $this->routerContainer->addRoute($route);
+        $path = $this->routerContainer->generatePath('user');
+
+        $this->assertEquals('/user/{id}', $path);
+    }
+
+    public function testGeneratePathWithSpecifiedParamsValue()
+    {
+        $route = new Route('/user/{id}/{foo}', 'user', function () {});
+
+        $this->routerContainer->addRoute($route);
+        $path = $this->routerContainer->generatePath('user', ['id' => '34', 'foo' => 'bar']);
+
+        $this->assertEquals('/user/34/bar', $path);
+    }
+
+    public function testGeneratePathWithPartialSpecifiedParamsValue()
+    {
+        $route = new Route('/user/{id}/{foo}', 'user', function () {});
+
+        $this->routerContainer->addRoute($route);
+        $path = $this->routerContainer->generatePath('user', ['id' => '34']);
+
+        $this->assertEquals('/user/34/{foo}', $path);
+    }
+
     private function getRouteNames()
     {
         return [

@@ -4,6 +4,7 @@ namespace Piface\Router;
 
 use Piface\Router\Exception\DuplicateRouteNameException;
 use Piface\Router\Exception\DuplicateRoutePathException;
+use Piface\Router\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterContainer
@@ -17,22 +18,23 @@ class RouterContainer
 
     /**
      * index all routes which have been registered to avoid duplication.
+     * The array is built like this : ['route_name' => 'route_path'].
      *
      * @var array
      */
-    private $path = [];
+    private $paths = [];
 
     public function addRoute(Route $route): Route
     {
-        if (\in_array($route->getPath(), $this->path, true)) {
+        if (\in_array($route->getPath(), $this->paths, true)) {
             throw new DuplicateRoutePathException($route->getPath());
         }
 
-        if (array_key_exists($route->getName(), $this->path)) {
+        if (array_key_exists($route->getName(), $this->paths)) {
             throw new DuplicateRouteNameException($route->getName());
         }
 
-        $this->path[$route->getName()] = $route->getPath();
+        $this->paths[$route->getName()] = $route->getPath();
         $this->routes[$route->getName()] = $route;
 
         return $route;
@@ -57,11 +59,31 @@ class RouterContainer
     }
 
     /**
+     * @return string|Exception
+     */
+    public function generatePath(string $name, $params = [])
+    {
+        return $this->getRouteByName($name)->generatePath($params);
+    }
+
+    /**
      * @return Route[]
      */
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    /**
+     * @return Route|Exception
+     */
+    public function getRouteByName(string $name)
+    {
+        if (!array_key_exists($name, $this->paths)) {
+            throw new RouteNotFoundException($name);
+        }
+
+        return $this->routes[$name];
     }
 
     private function argsResolver(Route $route): string
