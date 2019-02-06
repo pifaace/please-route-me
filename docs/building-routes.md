@@ -14,7 +14,6 @@ $router->put($path, $name, $callback);
 $router->delete($path, $name, $callback);
 $router->patch($path, $name, $callback);
 $router->options($path, $name, $callback);
-?>
 ```
 
 Also, you can add some HTTP verb on each route like this :
@@ -27,7 +26,6 @@ $router->post('/home', 'home', function () {
 $router->post('/contact', 'contact', function () {
     echo 'hi from contact page';
 })->allows(['GET', 'PUT']); # this route will accept {POST, GET, PUT} verbs
-?>
 ```
 
 ## Add rules to your routes
@@ -40,7 +38,6 @@ arguments that you add to your route :
     $router->get('/user/{id}', 'user', function ($id) {
        echo 'welcome user ' . $id;
     })->where(['id' => '[0-9]+']);
-?>
 ```
 At this point, the id parameter will only accept numbers from 0 to 9.
 
