@@ -2,8 +2,10 @@
 
 namespace Tests\Router;
 
+use function foo\func;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Piface\Router\Exception\RouteNotFoundException;
 use Piface\Router\Router;
 
 class RouterTest extends TestCase
@@ -163,5 +165,46 @@ class RouterTest extends TestCase
 
         $this->assertEquals('home', $postRoute->getName());
         $this->assertEquals('home', $putRoute->getName());
+    }
+
+    public function testGeneratePathWithoutParams()
+    {
+        $this->router->get('/home', 'home', function (){});
+        $path = $this->router->generate('home');
+
+        $this->assertEquals('/home', $path);
+    }
+
+    public function testGeneratePathWithoutParamsValueSpecified()
+    {
+        $this->router->get('/user/{id}', 'user', function (){});
+        $path = $this->router->generate('user');
+
+        $this->assertEquals('/user/{id}', $path);
+    }
+
+    public function testGeneratePathWithSpecifiedParamsValue()
+    {
+        $this->router->get('/user/{id}/{foo}', 'user', function (){});
+        $path = $this->router->generate('user', ['id' => '34', 'foo' => 'bar']);
+
+        $this->assertEquals('/user/34/bar', $path);
+    }
+
+    public function testGeneratePathWithPartialSpecifiedParamsValue()
+    {
+        $this->router->get('/user/{id}/{foo}', 'user', function (){});
+        $path = $this->router->generate('user', ['id' => '34']);
+
+        $this->assertEquals('/user/34/{foo}', $path);
+    }
+
+    /**
+     * @expectedException \Piface\Router\Exception\RouteNotFoundException
+     */
+    public function testGenerateRouteWithNonexistentRouteName()
+    {
+        $this->router->get('/user/{id}/{foo}', 'user', function (){});
+        $this->router->generate('foo');
     }
 }

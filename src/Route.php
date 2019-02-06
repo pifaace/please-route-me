@@ -104,6 +104,9 @@ class Route
         return $this->allows;
     }
 
+    /**
+     * This method will generate a path and specify params value if it defined
+     */
     public function generatePath(array $params = []): string
     {
         return preg_replace_callback('/\{(.*?)\}/', function ($m) use (&$params) {
