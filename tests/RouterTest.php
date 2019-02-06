@@ -2,10 +2,8 @@
 
 namespace Tests\Router;
 
-use function foo\func;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Piface\Router\Exception\RouteNotFoundException;
 use Piface\Router\Router;
 
 class RouterTest extends TestCase
@@ -169,7 +167,7 @@ class RouterTest extends TestCase
 
     public function testGeneratePathWithoutParams()
     {
-        $this->router->get('/home', 'home', function (){});
+        $this->router->get('/home', 'home', function () {});
         $path = $this->router->generate('home');
 
         $this->assertEquals('/home', $path);
@@ -177,7 +175,7 @@ class RouterTest extends TestCase
 
     public function testGeneratePathWithoutParamsValueSpecified()
     {
-        $this->router->get('/user/{id}', 'user', function (){});
+        $this->router->get('/user/{id}', 'user', function () {});
         $path = $this->router->generate('user');
 
         $this->assertEquals('/user/{id}', $path);
@@ -185,7 +183,7 @@ class RouterTest extends TestCase
 
     public function testGeneratePathWithSpecifiedParamsValue()
     {
-        $this->router->get('/user/{id}/{foo}', 'user', function (){});
+        $this->router->get('/user/{id}/{foo}', 'user', function () {});
         $path = $this->router->generate('user', ['id' => '34', 'foo' => 'bar']);
 
         $this->assertEquals('/user/34/bar', $path);
@@ -193,7 +191,7 @@ class RouterTest extends TestCase
 
     public function testGeneratePathWithPartialSpecifiedParamsValue()
     {
-        $this->router->get('/user/{id}/{foo}', 'user', function (){});
+        $this->router->get('/user/{id}/{foo}', 'user', function () {});
         $path = $this->router->generate('user', ['id' => '34']);
 
         $this->assertEquals('/user/34/{foo}', $path);
@@ -204,7 +202,7 @@ class RouterTest extends TestCase
      */
     public function testGenerateRouteWithNonexistentRouteName()
     {
-        $this->router->get('/user/{id}/{foo}', 'user', function (){});
+        $this->router->get('/user/{id}/{foo}', 'user', function () {});
         $this->router->generate('foo');
     }
 }

@@ -5,7 +5,6 @@ namespace Tests\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Piface\Router\Route;
-use Piface\Router\Router;
 use Piface\Router\RouterContainer;
 
 class RouterContainerTest extends TestCase
@@ -97,7 +96,7 @@ class RouterContainerTest extends TestCase
 
     public function testGetRouteByName()
     {
-        $route = new Route('/home', 'home', function (){});
+        $route = new Route('/home', 'home', function () {});
 
         $this->routerContainer->addRoute($route);
         $route = $this->routerContainer->getRouteByName('home');
@@ -110,7 +109,7 @@ class RouterContainerTest extends TestCase
      */
     public function testFindRouteWithNonexistentName()
     {
-        $route = new Route('/home', 'home', function (){});
+        $route = new Route('/home', 'home', function () {});
 
         $this->routerContainer->addRoute($route);
         $this->routerContainer->getRouteByName('foo');
@@ -118,7 +117,7 @@ class RouterContainerTest extends TestCase
 
     public function testGeneratePathWithoutParams()
     {
-        $route = new Route('/home', 'home', function (){});
+        $route = new Route('/home', 'home', function () {});
 
         $this->routerContainer->addRoute($route);
         $path = $this->routerContainer->generatePath('home');
@@ -128,7 +127,7 @@ class RouterContainerTest extends TestCase
 
     public function testGeneratePathWithoutParamsValueSpecified()
     {
-        $route = new Route('/user/{id}', 'user', function (){});
+        $route = new Route('/user/{id}', 'user', function () {});
 
         $this->routerContainer->addRoute($route);
         $path = $this->routerContainer->generatePath('user');
@@ -138,7 +137,7 @@ class RouterContainerTest extends TestCase
 
     public function testGeneratePathWithSpecifiedParamsValue()
     {
-        $route = new Route('/user/{id}/{foo}', 'user', function (){});
+        $route = new Route('/user/{id}/{foo}', 'user', function () {});
 
         $this->routerContainer->addRoute($route);
         $path = $this->routerContainer->generatePath('user', ['id' => '34', 'foo' => 'bar']);
@@ -148,7 +147,7 @@ class RouterContainerTest extends TestCase
 
     public function testGeneratePathWithPartialSpecifiedParamsValue()
     {
-        $route = new Route('/user/{id}/{foo}', 'user', function (){});
+        $route = new Route('/user/{id}/{foo}', 'user', function () {});
 
         $this->routerContainer->addRoute($route);
         $path = $this->routerContainer->generatePath('user', ['id' => '34']);

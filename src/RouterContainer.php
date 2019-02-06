@@ -18,7 +18,7 @@ class RouterContainer
 
     /**
      * index all routes which have been registered to avoid duplication.
-     * The array is built like this : ['route_name' => 'route_path']
+     * The array is built like this : ['route_name' => 'route_path'].
      *
      * @var array
      */
