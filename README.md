@@ -96,3 +96,4 @@ $ open http://localhost:8080/home/13/bar
 These topics cover the advanced usages of the router :
 * [Building Routes](https://github.com/pifaace/please-route-me/blob/master/docs/building-routes.md)
 WORK IN PROGRESS
+* [Generating paths](https://github.com/pifaace/please-route-me/blob/master/docs/generating-paths.md)
